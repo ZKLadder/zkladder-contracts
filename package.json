@@ -1,0 +1,36 @@
+{
+  "name": "zkladder-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx hardhat compile",
+    "flatten": "node scripts/flattenContract",
+    "lint": "eslint . --ext .js && npx solhint contracts/**/*.sol",
+    "test": "npx hardhat test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZKLadder/zkladder-contracts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZKLadder/zkladder-contracts/issues"
+  },
+  "homepage": "https://github.com/ZKLadder/zkladder-contracts#readme",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@openzeppelin/contracts": "^4.6.0",
+    "ethers": "^5.6.7",
+    "hardhat": "^2.9.6",
+    "minimist": "^1.2.6",
+    "solhint": "^3.3.7"
+  }
+}
