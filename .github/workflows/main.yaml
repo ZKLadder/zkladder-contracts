@@ -25,6 +25,9 @@ jobs: # each workflow consists of 1+ jobs; by default, all jobs run in parallel
       - name: Install Dependencies
         run: npm ci
 
+      - name: Generate build artifacts
+        run: npm run build
+
       - name: Run linter
         run: npm run lint
   
