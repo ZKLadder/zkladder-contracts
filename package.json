@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/contracts",
+    "index.js",
+    "abi.json"
+  ],
   "scripts": {
     "build": "npx hardhat export-abi",
     "flatten": "node scripts/flattenContract",
