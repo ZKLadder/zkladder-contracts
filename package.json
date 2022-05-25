@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx hardhat compile",
+    "build": "npx hardhat export-abi",
     "flatten": "node scripts/flattenContract",
     "lint": "eslint . --ext .js && npx solhint contracts/**/*.sol",
     "test": "npx hardhat test"
@@ -23,7 +23,8 @@
     "chai": "^4.3.6",
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.26.0",
+    "typescript": "^4.7.2"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",

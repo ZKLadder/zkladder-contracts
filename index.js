@@ -1,10 +1,6 @@
-const erc721Whitelisted = require('./artifacts/contracts/ERC721_Whitelisted.sol/ERC721_Whitelisted.json');
+const contracts = require('./abi.json');
 
-module.exports = {
-  1: {
-    name: 'ERC721_Whitelisted',
-    id: 1,
-    src: 'contracts/ERC721_Whitelisted.sol',
-    ...erc721Whitelisted,
-  },
+module.exports = (templateId) => {
+  if (!contracts[templateId]) throw new Error('Requested unsupported contract id');
+  return contracts[templateId];
 };

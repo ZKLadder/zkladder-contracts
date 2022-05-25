@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-const { ethToWei } = require('./utils');
+const { ethToWei } = require('./conversions');
 
 module.exports = async (options) => {
   const {
