@@ -1,8 +1,14 @@
 {
-  "name": "zkladder-contracts",
+  "name": "@zkladder/zkladder-contracts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/contracts",
+    "index.js",
+    "abi.json"
+  ],
   "scripts": {
     "build": "npx hardhat export-abi",
     "flatten": "node scripts/flattenContract",
@@ -33,5 +39,8 @@
     "hardhat": "^2.9.6",
     "minimist": "^1.2.6",
     "solhint": "^3.3.7"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
