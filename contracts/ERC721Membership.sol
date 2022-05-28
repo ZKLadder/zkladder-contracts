@@ -56,6 +56,7 @@ contract ERC721Membership is
         string memory _contractURI,
         address payable beneficiary
     ) ERC721(name, symbol) EIP712(name, "1") {
+        require(beneficiary != address(0), "Beneficiary cannot be 0 address");
         contractURI = _contractURI;
         beneficiaryAddress = beneficiary;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -202,6 +203,10 @@ contract ERC721Membership is
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
     {
+        require(
+            newBeneficiary != address(0),
+            "Beneficiary cannot be 0 address"
+        );
         beneficiaryAddress = newBeneficiary;
     }
 

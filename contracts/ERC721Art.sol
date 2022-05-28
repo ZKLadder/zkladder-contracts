@@ -35,7 +35,7 @@ contract ERC721Art is
         string memory contractUri,
         address beneficiary,
         uint96 defaultRoyalty
-    ) public initializer {
+    ) external initializer {
         __ERC721_init(name, symbol);
         __ERC721URIStorage_init();
         __ERC721Royalty_init();
@@ -79,7 +79,7 @@ contract ERC721Art is
       @param tokenUri IPFS hash or URI of token metadata
      */
     function mint(address to, string memory tokenUri)
-        public
+        external
         onlyRole(MINTER_ROLE)
     {
         uint256 tokenId = totalSupply();
