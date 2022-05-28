@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
   @notice NFT contract enabling administrative minting with a MINTER_ROLE or public minting with a signed mint voucher
   @author ZKLadder DAO
  */
-contract ERC721_Whitelisted is
+contract ERC721Membership is
     ERC721,
     ERC721URIStorage,
     AccessControlEnumerable,
@@ -41,7 +41,7 @@ contract ERC721_Whitelisted is
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    struct mintVoucher {
+    struct MintVoucher {
         // Minter's allowed balance after mint has occured.
         // Ie. if the voucher is valid for a single token, balance = balanceOf(minter)+1
         uint256 balance;
@@ -120,26 +120,17 @@ contract ERC721_Whitelisted is
       @notice Public function enabling any account to mint with a mintVoucher signed by an account granted a MINTER_ROLE
       @param voucher A signed mint voucher
      */
-    function mint(mintVoucher calldata voucher, string memory tokenUri)
+    function mint(MintVoucher calldata voucher, string memory tokenUri)
         public
         payable
     {
-        require(
-            msg.value >= voucher.salePrice,
-            "Insufficient ETH sent with transaction"
-        );
+        require(msg.value >= voucher.salePrice, "Value sent is too low");
 
         address signer = _verify(voucher);
-        require(
-            hasRole(MINTER_ROLE, signer),
-            "Signature invalid or unauthorized"
-        );
+        require(hasRole(MINTER_ROLE, signer), "Signature invalid");
 
         uint256 balance = balanceOf(voucher.minter);
-        require(
-            voucher.balance > balance,
-            "You are not authorized to mint any more tokens"
-        );
+        require(voucher.balance > balance, "Cannot mint any more tokens");
 
         uint256 tokenId = totalSupply();
 
@@ -156,7 +147,7 @@ contract ERC721_Whitelisted is
             value: msg.value
         }("");
 
-        require(success, "Failed to transfer funds to beneficiary");
+        require(success, "Failed transfer to beneficiary");
     }
 
     /**
@@ -248,7 +239,7 @@ contract ERC721_Whitelisted is
     }
 
     // Internal functions
-    function _hash(mintVoucher calldata voucher)
+    function _hash(MintVoucher calldata voucher)
         internal
         view
         returns (bytes32)
@@ -268,7 +259,7 @@ contract ERC721_Whitelisted is
             );
     }
 
-    function _verify(mintVoucher calldata voucher)
+    function _verify(MintVoucher calldata voucher)
         internal
         view
         returns (address)

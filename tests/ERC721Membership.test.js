@@ -1,13 +1,13 @@
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
 const { BigNumber, utils } = require('ethers');
-const nftWhitelistedVoucher = require('../utils/nftWhitelistedVoucher');
+const { nftWhitelistedVoucher } = require('../utils/signatures');
 
-describe('ERC721_Whitelisted', () => {
+describe('ERC721Membership', () => {
   let ERC721Whitelisted;
 
   beforeEach(async () => {
-    const factory = await ethers.getContractFactory('ERC721_Whitelisted');
+    const factory = await ethers.getContractFactory('ERC721Membership');
 
     ERC721Whitelisted = await factory.deploy(
       'MockNFT',
@@ -285,7 +285,7 @@ describe('ERC721_Whitelisted', () => {
       const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com');
       await invalidSigTx.wait();
     } catch (error) {
-      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Signature invalid or unauthorized\'');
+      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Signature invalid\'');
     }
 
     // Valid signature but max balance reached
@@ -302,7 +302,7 @@ describe('ERC721_Whitelisted', () => {
       const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com');
       await invalidSigTx.wait();
     } catch (error) {
-      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'You are not authorized to mint any more tokens\'');
+      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Cannot mint any more tokens\'');
     }
 
     // Not sending enough crypto
@@ -319,7 +319,7 @@ describe('ERC721_Whitelisted', () => {
       const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: BigNumber.from('50000000000000000') });
       await invalidSigTx.wait();
     } catch (error) {
-      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Insufficient ETH sent with transaction\'');
+      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Value sent is too low\'');
     }
   });
 

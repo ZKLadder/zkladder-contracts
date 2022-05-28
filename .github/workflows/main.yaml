@@ -68,4 +68,5 @@ jobs: # each workflow consists of 1+ jobs; by default, all jobs run in parallel
       uses: crytic/slither-action@v0.1.1
       id: slither
       with:
+        target: contracts
         node-version: 14

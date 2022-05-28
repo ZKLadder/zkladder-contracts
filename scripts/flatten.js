@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-const args = require('minimist');
-const hardhat = require('hardhat');
 const { writeFileSync } = require('fs');
 const contracts = require('../index');
 
-const flattenContract = async () => {
-  const { templateId, targetFile, license } = args(process.argv);
+module.exports = async (taskArgs, hre) => {
+  const { templateId, targetFile, license } = taskArgs;
 
-  const { src } = contracts[templateId];
+  const { src } = contracts(templateId);
 
   const consoleLog = console.log;
   let flatSourceCode;
@@ -17,7 +15,7 @@ const flattenContract = async () => {
     flatSourceCode = `// SPDX-License-Identifier: ${license || 'MIXED'}\n\n${data.replace(/SPDX-License-Identifier:/gm, 'License-Identifier:').trim()}`;
   };
 
-  await hardhat.run('flatten', src);
+  await hre.run('flatten', src);
 
   // Restore console.log
   console.log = consoleLog;
@@ -27,11 +25,4 @@ const flattenContract = async () => {
   } else {
     console.log(flatSourceCode);
   }
-};
-
-if (process.env.NODE_ENV !== 'test') flattenContract();
-
-// Exported for unit testing
-module.exports = {
-  flattenContract,
 };
