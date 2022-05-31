@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { ethToWei } = require('./conversions');
 
-module.exports = async (options) => {
+const nftWhitelistedVoucher = async (options) => {
   const {
     chainId,
     contractName,
@@ -45,4 +45,8 @@ module.exports = async (options) => {
     salePrice: salePriceInWei,
     signature,
   };
+};
+
+module.exports = {
+  nftWhitelistedVoucher,
 };

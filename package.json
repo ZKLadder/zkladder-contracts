@@ -11,7 +11,6 @@
   ],
   "scripts": {
     "build": "npx hardhat export-abi",
-    "flatten": "node scripts/flattenContract",
     "lint": "eslint . --ext .js && npx solhint contracts/**/*.sol",
     "test": "npx hardhat test"
   },
@@ -35,6 +34,8 @@
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@openzeppelin/contracts": "^4.6.0",
+    "@openzeppelin/contracts-upgradeable": "^4.6.0",
+    "dotenv": "^16.0.1",
     "ethers": "^5.6.7",
     "hardhat": "^2.9.6",
     "minimist": "^1.2.6",
