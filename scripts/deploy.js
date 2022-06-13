@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
 const contracts = require('../utils/contracts');
 
-const proxies = ['3', '4'];
-
 module.exports = async (taskArgs, hre) => {
   const { templateId } = taskArgs;
   const template = contracts[templateId];
 
-  if (proxies.includes(templateId)) {
+  if (template.isProxy) {
     const logicContract = await hre.ethers.getContractFactory(template.name);
     const logicInstance = await logicContract.deploy();
 
