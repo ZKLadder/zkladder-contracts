@@ -64,7 +64,7 @@ contract ERC721MembershipV2 is
 
         __ERC721_init(name, symbol);
         __ERC721URIStorage_init();
-        __AccessControl_init();
+        __AccessControlEnumerable_init();
         __EIP712_init(name, "1");
         __UUPSUpgradeable_init();
 
