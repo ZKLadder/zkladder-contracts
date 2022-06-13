@@ -59,7 +59,9 @@ contract ERC721MembershipV2 is
         string memory symbol,
         string memory contractUri,
         address payable beneficiary
-    ) public initializer {
+    ) external initializer {
+        require(beneficiary != address(0), "Beneficiary cannot be 0 address");
+
         __ERC721_init(name, symbol);
         __ERC721URIStorage_init();
         __AccessControl_init();
@@ -83,7 +85,7 @@ contract ERC721MembershipV2 is
         return memberTiers.length;
     }
 
-    function getTier(uint32 id) public view returns (MemberTier memory) {
+    function getTier(uint32 id) external view returns (MemberTier memory) {
         require(id < memberTiers.length, "Invalid tier id");
         return memberTiers[id];
     }
@@ -163,7 +165,7 @@ contract ERC721MembershipV2 is
         address to,
         uint32 tierId,
         string memory tokenUri
-    ) public onlyRole(MINTER_ROLE) {
+    ) external onlyRole(MINTER_ROLE) {
         require(tierId < totalTiers(), "Invalid tierId");
         require(bytes(tokenUri).length > 0, "tokenUri must be set");
 
@@ -185,7 +187,7 @@ contract ERC721MembershipV2 is
         MintVoucher calldata voucher,
         uint32 tierId,
         string memory tokenUri
-    ) public payable {
+    ) external payable {
         require(tierId < totalTiers(), "Invalid tierId");
         require(bytes(tokenUri).length > 0, "tokenUri must be set");
 
