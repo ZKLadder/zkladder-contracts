@@ -49,8 +49,6 @@ Inherits from:
   
 Supports direct minting with the **MINTER_ROLE**.  
 
-Each contract
-
 ## Building and Deploying
 ### Building
 Because zkladder-contracts is currently a private package hosted on github, there is some extra first-time set up required. 
@@ -91,7 +89,8 @@ The templateId field refers to the **contractId** of the [contract that you wish
 - Run `npm run lint`
 
 ### Unit Testing
-- Run `npm run test`
+- Run `npm run test`  
+
 *Add **REPORT_GAS=true** to your .env file to generate a full gas usage report*
 
 ## Contributing
