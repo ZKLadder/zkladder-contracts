@@ -1,13 +1,13 @@
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
 const { BigNumber, utils } = require('ethers');
-const { nftWhitelistedVoucher } = require('../utils/signatures');
+const { ERC721MembershipV1Voucher } = require('../utils/signatures');
 
-describe('ERC721Membership', () => {
+describe('ERC721MembershipV1', () => {
   let ERC721Whitelisted;
 
   beforeEach(async () => {
-    const factory = await ethers.getContractFactory('ERC721Membership');
+    const factory = await ethers.getContractFactory('ERC721MembershipV1');
 
     ERC721Whitelisted = await factory.deploy(
       'MockNFT',
@@ -273,7 +273,7 @@ describe('ERC721Membership', () => {
 
     // Signed by non-admin
     try {
-      const signature = await nftWhitelistedVoucher({
+      const signature = await ERC721MembershipV1Voucher({
         chainId: 31337,
         contractName: 'MockNFT',
         contractAddress: nonAdmin.address,
@@ -290,7 +290,7 @@ describe('ERC721Membership', () => {
 
     // Valid signature but max balance reached
     try {
-      const signature = await nftWhitelistedVoucher({
+      const signature = await ERC721MembershipV1Voucher({
         chainId: 31337,
         contractName: 'MockNFT',
         contractAddress: nonAdmin.address,
@@ -307,7 +307,7 @@ describe('ERC721Membership', () => {
 
     // Not sending enough crypto
     try {
-      const signature = await nftWhitelistedVoucher({
+      const signature = await ERC721MembershipV1Voucher({
         chainId: 31337,
         contractName: 'MockNFT',
         contractAddress: nonAdmin.address,
@@ -328,7 +328,7 @@ describe('ERC721Membership', () => {
 
     const nonAdmin = ERC721Whitelisted.connect(signers[1]);
 
-    const signature = await nftWhitelistedVoucher({
+    const signature = await ERC721MembershipV1Voucher({
       chainId: 31337,
       contractName: 'MockNFT',
       contractAddress: nonAdmin.address,
@@ -356,7 +356,7 @@ describe('ERC721Membership', () => {
 
     const nonAdmin = ERC721Whitelisted.connect(signers[1]);
 
-    const signature = await nftWhitelistedVoucher({
+    const signature = await ERC721MembershipV1Voucher({
       chainId: 31337,
       contractName: 'MockNFT',
       contractAddress: nonAdmin.address,

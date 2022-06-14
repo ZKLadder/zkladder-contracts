@@ -1,5 +1,6 @@
 require('@nomiclabs/hardhat-ethers');
 require('dotenv/config');
+require('hardhat-gas-reporter');
 const { task, types } = require('hardhat/config');
 const exportAbi = require('./scripts/exportAbi');
 const flatten = require('./scripts/flatten');
@@ -17,19 +18,30 @@ const networks = {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: '0.8.2',
+  solidity: {
+    version: '0.8.2',
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   paths: {
     tests: './tests',
   },
   networks,
+  gasReporter: {
+    enabled: (process.env.REPORT_GAS === 'true'),
+  },
 };
 
 task('export-abi', 'Exports the contract metadata, abi and bytecode into an object usable by Ethers')
   .setAction(exportAbi);
 
 task('flatten-file', 'Flattens a contracts source code so that it may be verified on etherscan')
-  .addParam('templateId', 'Contract template to be flattened')
-  .addParam('targetFile', 'Name of file which will contain the flattened source code', undefined, types.string, true)
+  .addParam('templateid', 'Contract template to be flattened')
+  .addParam('targetfile', 'Name of file which will contain the flattened source code', undefined, types.string, true)
   .addParam('license', 'SPDX license identifier for flattened source', undefined, types.string, true)
   .setAction(flatten);
 

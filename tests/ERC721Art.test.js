@@ -16,7 +16,7 @@ describe('ERC721Art', () => {
     await ERC721ArtLogic.deployTransaction.wait();
   });
 
-  it('Correctly deploys a single proxy', async () => {
+  it('Correctly deploys proxies', async () => {
     const storageFactory = await ethers.getContractFactory('ZKProxy');
     const proxy1 = await storageFactory.deploy(
       ERC721ArtLogic.address,

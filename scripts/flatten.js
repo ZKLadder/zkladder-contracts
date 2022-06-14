@@ -3,9 +3,9 @@ const { writeFileSync } = require('fs');
 const contracts = require('../index');
 
 module.exports = async (taskArgs, hre) => {
-  const { templateId, targetFile, license } = taskArgs;
+  const { templateid, targetfile, license } = taskArgs;
 
-  const { src } = contracts(templateId);
+  const { src } = contracts(templateid);
 
   const consoleLog = console.log;
   let flatSourceCode;
@@ -15,13 +15,13 @@ module.exports = async (taskArgs, hre) => {
     flatSourceCode = `// SPDX-License-Identifier: ${license || 'MIXED'}\n\n${data.replace(/SPDX-License-Identifier:/gm, 'License-Identifier:').trim()}`;
   };
 
-  await hre.run('flatten', src);
+  await hre.run('flatten', { files: [src] });
 
   // Restore console.log
   console.log = consoleLog;
 
-  if (targetFile) {
-    writeFileSync(targetFile, flatSourceCode);
+  if (targetfile) {
+    writeFileSync(targetfile, flatSourceCode);
   } else {
     console.log(flatSourceCode);
   }
