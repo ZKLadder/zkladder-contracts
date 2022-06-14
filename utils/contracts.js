@@ -1,8 +1,8 @@
 module.exports = {
   1: {
-    name: 'ERC721Membership',
+    name: 'ERC721MembershipV1',
     id: 1,
-    src: 'contracts/ERC721Membership.sol',
+    src: 'contracts/ERC721MembershipV1.sol',
     mockArgs: ['TestContract', 'TST', 'https://contractUri', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
   },
   2: {

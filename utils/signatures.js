@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const { ethToWei } = require('./conversions');
 
-const ERC721MembershipVoucher = async (options) => {
+const ERC721MembershipV1Voucher = async (options) => {
   const {
     chainId,
     contractName,
@@ -88,6 +88,6 @@ const ERC721MembershipV2Voucher = async (options) => {
 };
 
 module.exports = {
-  ERC721MembershipVoucher,
+  ERC721MembershipV1Voucher,
   ERC721MembershipV2Voucher,
 };

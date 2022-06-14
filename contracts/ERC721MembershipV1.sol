@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
   @notice NFT contract enabling administrative minting with a MINTER_ROLE or public minting with a signed mint voucher
   @author ZKLadder DAO
  */
-contract ERC721Membership is
+contract ERC721MembershipV1 is
     ERC721,
     ERC721URIStorage,
     AccessControlEnumerable,

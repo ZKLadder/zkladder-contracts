@@ -3,7 +3,7 @@
 
 ## Contracts
 
-### ERC721Membership
+### ERC721MembershipV1
 Token contract implementing the ERC721 standard for NFT's.  
 
 Inherits from:
