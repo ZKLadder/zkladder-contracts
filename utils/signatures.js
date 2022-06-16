@@ -54,6 +54,7 @@ const ERC721MembershipV2Voucher = async (options) => {
     contractAddress,
     wallet,
     balance,
+    tierId,
     minter,
   } = options;
 
@@ -69,12 +70,14 @@ const ERC721MembershipV2Voucher = async (options) => {
   const types = {
     mintVoucher: [
       { name: 'balance', type: 'uint256' },
+      { name: 'tierId', type: 'uint32' },
       { name: 'minter', type: 'address' },
     ],
   };
 
   const value = {
     balance,
+    tierId,
     minter,
   };
 
@@ -82,6 +85,7 @@ const ERC721MembershipV2Voucher = async (options) => {
 
   return {
     balance,
+    tierId,
     minter,
     signature,
   };
