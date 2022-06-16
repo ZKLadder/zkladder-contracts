@@ -89,10 +89,10 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalTiers()).toNumber()).to.equal(0);
 
     try {
-      await instance1.getTier(0);
+      await instance1.tierInfo(0);
       expect(true).to.equal(false);
     } catch (err) {
-      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tier id" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="getTier(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000f496e76616c696420746965722069640000000000000000000000000000000000", errorArgs=["Invalid tier id"], errorName="Error", errorSignature="Error(string)", reason="Invalid tier id", code=CALL_EXCEPTION, version=abi/5.6.3)');
+      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tierId" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="tierInfo(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e496e76616c696420746965724964000000000000000000000000000000000000", errorArgs=["Invalid tierId"], errorName="Error", errorSignature="Error(string)", reason="Invalid tierId", code=CALL_EXCEPTION, version=abi/5.6.3)');
     }
 
     const newTier = {
@@ -106,7 +106,7 @@ describe('ERC721MembershipV2', () => {
 
     expect((await instance1.totalTiers()).toNumber()).to.equal(1);
 
-    const contractTier = await instance1.getTier(0);
+    const contractTier = await instance1.tierInfo(0);
 
     expect(contractTier).to.containSubset(newTier);
   });
@@ -127,10 +127,10 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalTiers()).toNumber()).to.equal(0);
 
     try {
-      await instance1.getTier(0);
+      await instance1.tierInfo(0);
       expect(true).to.equal(false);
     } catch (err) {
-      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tier id" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="getTier(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000f496e76616c696420746965722069640000000000000000000000000000000000", errorArgs=["Invalid tier id"], errorName="Error", errorSignature="Error(string)", reason="Invalid tier id", code=CALL_EXCEPTION, version=abi/5.6.3)');
+      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tierId" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="tierInfo(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e496e76616c696420746965724964000000000000000000000000000000000000", errorArgs=["Invalid tierId"], errorName="Error", errorSignature="Error(string)", reason="Invalid tierId", code=CALL_EXCEPTION, version=abi/5.6.3)');
     }
 
     const tier1 = {
@@ -158,9 +158,9 @@ describe('ERC721MembershipV2', () => {
 
     expect((await instance1.totalTiers()).toNumber()).to.equal(3);
 
-    const contractTier1 = await instance1.getTier(0);
-    const contractTier2 = await instance1.getTier(1);
-    const contractTier3 = await instance1.getTier(2);
+    const contractTier1 = await instance1.tierInfo(0);
+    const contractTier2 = await instance1.tierInfo(1);
+    const contractTier3 = await instance1.tierInfo(2);
 
     expect(contractTier1).to.containSubset(tier1);
     expect(contractTier2).to.containSubset(tier2);
@@ -185,10 +185,10 @@ describe('ERC721MembershipV2', () => {
     expect((await nonAdmin.totalTiers()).toNumber()).to.equal(0);
 
     try {
-      await nonAdmin.getTier(0);
+      await nonAdmin.tierInfo(0);
       expect(true).to.equal(false);
     } catch (err) {
-      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tier id" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="getTier(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000f496e76616c696420746965722069640000000000000000000000000000000000", errorArgs=["Invalid tier id"], errorName="Error", errorSignature="Error(string)", reason="Invalid tier id", code=CALL_EXCEPTION, version=abi/5.6.3)');
+      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tierId" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="tierInfo(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e496e76616c696420746965724964000000000000000000000000000000000000", errorArgs=["Invalid tierId"], errorName="Error", errorSignature="Error(string)", reason="Invalid tierId", code=CALL_EXCEPTION, version=abi/5.6.3)');
     }
 
     const newTier = {
@@ -222,10 +222,10 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalTiers()).toNumber()).to.equal(0);
 
     try {
-      await instance1.getTier(0);
+      await instance1.tierInfo(0);
       expect(true).to.equal(false);
     } catch (err) {
-      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tier id" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="getTier(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000f496e76616c696420746965722069640000000000000000000000000000000000", errorArgs=["Invalid tier id"], errorName="Error", errorSignature="Error(string)", reason="Invalid tier id", code=CALL_EXCEPTION, version=abi/5.6.3)');
+      expect(err.message).to.equal('call revert exception; VM Exception while processing transaction: reverted with reason string "Invalid tierId" [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (method="tierInfo(uint32)", data="0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e496e76616c696420746965724964000000000000000000000000000000000000", errorArgs=["Invalid tierId"], errorName="Error", errorSignature="Error(string)", reason="Invalid tierId", code=CALL_EXCEPTION, version=abi/5.6.3)');
     }
 
     const newTier = {
@@ -297,9 +297,9 @@ describe('ERC721MembershipV2', () => {
       { tierId: 2, tierUpdates: tier3Updated },
     ])).wait();
 
-    const contractTier1 = await instance1.getTier(0);
-    const contractTier2 = await instance1.getTier(1);
-    const contractTier3 = await instance1.getTier(2);
+    const contractTier1 = await instance1.tierInfo(0);
+    const contractTier2 = await instance1.tierInfo(1);
+    const contractTier3 = await instance1.tierInfo(2);
 
     expect(contractTier1).to.containSubset(tier1);
     expect(contractTier2).to.containSubset(tier2Updated);
@@ -370,9 +370,9 @@ describe('ERC721MembershipV2', () => {
       expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'AccessControl: account 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000\'');
     }
 
-    const contractTier1 = await instance1.getTier(0);
-    const contractTier2 = await instance1.getTier(1);
-    const contractTier3 = await instance1.getTier(2);
+    const contractTier1 = await instance1.tierInfo(0);
+    const contractTier2 = await instance1.tierInfo(1);
+    const contractTier3 = await instance1.tierInfo(2);
 
     expect(contractTier1).to.containSubset(tier1);
     expect(contractTier2).to.containSubset(tier2);
@@ -433,9 +433,9 @@ describe('ERC721MembershipV2', () => {
       expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Updating nonexistent tier\'');
     }
 
-    const contractTier1 = await instance1.getTier(0);
-    const contractTier2 = await instance1.getTier(1);
-    const contractTier3 = await instance1.getTier(2);
+    const contractTier1 = await instance1.tierInfo(0);
+    const contractTier2 = await instance1.tierInfo(1);
+    const contractTier3 = await instance1.tierInfo(2);
 
     expect(contractTier1).to.containSubset(tier1);
     expect(contractTier2).to.containSubset(tier2);
@@ -780,10 +780,11 @@ describe('ERC721MembershipV2', () => {
       contractAddress: instance1.address,
       wallet: signers[0],
       balance: 1,
+      tierId: 0,
       minter: signers[1].address,
     });
 
-    await (await nonAdmin.mint(signature, 0, 'mockTokenURI', { value: ethToWei(1) })).wait();
+    await (await nonAdmin.mint(signature, 'mockTokenURI', { value: ethToWei(1) })).wait();
 
     expect(await instance1.totalSupply()).to.deep.equal(BigNumber.from(1));
     expect(await instance1.balanceOf(signers[1].address)).to.deep.equal(BigNumber.from(1));
@@ -826,8 +827,9 @@ describe('ERC721MembershipV2', () => {
       const mintMalformedStructTx = await nonAdmin.mint({
         balance: 1,
         minter: signers[1].address,
+        tierId: 0,
         signature: utils.toUtf8Bytes('0xmockSigntatureData'),
-      }, 0, 'https://mockToken.com', { value: ethToWei(1) });
+      }, 'https://mockToken.com', { value: ethToWei(1) });
 
       await mintMalformedStructTx.wait();
     } catch (error) {
@@ -842,9 +844,10 @@ describe('ERC721MembershipV2', () => {
         contractAddress: nonAdmin.address,
         wallet: signers[1],
         balance: 1,
+        tierId: 0,
         minter: signers[1].address,
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 0, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Signature invalid\'');
@@ -858,9 +861,10 @@ describe('ERC721MembershipV2', () => {
         contractAddress: nonAdmin.address,
         wallet: signers[0],
         balance: 0,
+        tierId: 0,
         minter: signers[1].address,
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 0, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Cannot mint any more tokens\'');
@@ -874,9 +878,10 @@ describe('ERC721MembershipV2', () => {
         contractAddress: nonAdmin.address,
         wallet: signers[0],
         balance: 1,
+        tierId: 0,
         minter: signers[1].address,
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 0, 'https://mockToken.com', { value: ethToWei(0.5) });
+      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(0.5) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Value sent is too low\'');
@@ -890,9 +895,10 @@ describe('ERC721MembershipV2', () => {
         contractAddress: nonAdmin.address,
         wallet: signers[0],
         balance: 0,
+        tierId: 0,
         minter: signers[1].address,
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 0, '', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, '', { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'tokenUri must be set\'');
@@ -906,9 +912,10 @@ describe('ERC721MembershipV2', () => {
         contractAddress: nonAdmin.address,
         wallet: signers[0],
         balance: 0,
+        tierId: 1,
         minter: signers[1].address,
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 1, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Invalid tierId\'');

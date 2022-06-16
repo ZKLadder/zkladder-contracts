@@ -45,6 +45,7 @@ contract ERC721MembershipV2 is
         // Minter's allowed balance after mint has occured.
         // Ie. if the voucher is valid for a single token, balance = balanceOf(minter)+1
         uint256 balance;
+        uint32 tierId;
         address minter;
         bytes signature;
     }
@@ -85,8 +86,8 @@ contract ERC721MembershipV2 is
         return memberTiers.length;
     }
 
-    function getTier(uint32 id) external view returns (MemberTier memory) {
-        require(id < memberTiers.length, "Invalid tier id");
+    function tierInfo(uint32 id) public view returns (MemberTier memory) {
+        require(id < memberTiers.length, "Invalid tierId");
         return memberTiers[id];
     }
 
@@ -99,7 +100,7 @@ contract ERC721MembershipV2 is
         returns (address receiver, uint256 royaltyAmount)
     {
         uint32 tierId = tokenTiers[_tokenId];
-        MemberTier memory tier = memberTiers[tierId];
+        MemberTier memory tier = tierInfo(tierId);
 
         return (
             beneficiaryAddress,
@@ -180,18 +181,15 @@ contract ERC721MembershipV2 is
     /**
       @notice Public function enabling any account to mint with a mintVoucher signed by an account granted a MINTER_ROLE
       @param voucher A signed mint voucher
-      @param tierId Id of the tier that this token will belong to
       @param tokenUri IPFS hash or URI of token metadata
      */
-    function mint(
-        MintVoucher calldata voucher,
-        uint32 tierId,
-        string memory tokenUri
-    ) external payable {
-        require(tierId < totalTiers(), "Invalid tierId");
+    function mint(MintVoucher calldata voucher, string memory tokenUri)
+        external
+        payable
+    {
         require(bytes(tokenUri).length > 0, "tokenUri must be set");
 
-        MemberTier memory tier = memberTiers[tierId];
+        MemberTier memory tier = tierInfo(voucher.tierId);
 
         require(msg.value >= tier.salePrice, "Value sent is too low");
 
@@ -203,7 +201,7 @@ contract ERC721MembershipV2 is
 
         uint256 tokenId = totalSupply();
 
-        tokenTiers[tokenId] = tierId;
+        tokenTiers[tokenId] = voucher.tierId;
         _safeMint(voucher.minter, tokenId);
         _setTokenURI(tokenId, tokenUri);
         _totalSupply.increment();
@@ -223,7 +221,7 @@ contract ERC721MembershipV2 is
     ) internal override(ERC721Upgradeable) {
         if (from != address(0)) {
             uint32 tierId = tokenTiers[tokenId];
-            MemberTier memory tier = memberTiers[tierId];
+            MemberTier memory tier = tierInfo(tierId);
             require(
                 (tier.isTransferable ||
                     hasRole(DEFAULT_ADMIN_ROLE, from) ||
@@ -251,9 +249,10 @@ contract ERC721MembershipV2 is
                 keccak256(
                     abi.encode(
                         keccak256(
-                            "mintVoucher(uint256 balance,address minter)"
+                            "mintVoucher(uint256 balance,uint32 tierId,address minter)"
                         ),
                         voucher.balance,
+                        voucher.tierId,
                         voucher.minter
                     )
                 )
