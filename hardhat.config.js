@@ -10,12 +10,12 @@ const networks = {
   localhost: {
     url: 'http://localhost:8545',
     chainId: 31337,
-    accounts: process.env.CI ? [process.env.HARDHAT_PRIVATE_KEY] : undefined,
+    accounts: process.env.CI ? undefined : [process.env.HARDHAT_PRIVATE_KEY],
   },
   rinkeby: {
     url: 'https://rinkeby.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
     chainId: 4,
-    accounts: process.env.CI ? [process.env.EVM_PRIVATE_KEY] : undefined,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
 };
 
