@@ -3,7 +3,8 @@
 
 ## Contracts
 
-### ERC721MembershipV1
+### Non-Upgradeable
+##### ERC721MembershipV1
 Token contract implementing the ERC721 standard for NFT's.  
 
 Inherits from:
@@ -19,7 +20,9 @@ Supports direct minting with the **MINTER_ROLE** or minting with a signed vouche
 *This contract is deprecated and the upgradeable ERC721MembershipV2 should be used instead*
 
 
-### ERC721MembershipV2
+### Upgradeable
+*Upgradeable (implementation) contracts are assigned a predetermined address accross all networks which is enforced by deploying them in the same order on every EVM chain*
+##### ERC721MembershipV2
 Upgradeable token contract implementing the ERC721 standard, with added support for grouping token's into tiers which govern on-chain behavior of minted NFT's.  
 
 Inherits from:
@@ -34,8 +37,10 @@ At least one **Token Tier** must have been created by an account assigned the **
 Token tiers enable admins to govern certain on-chain properties of NFT's - such as transferability, mint price, and royalties on secondary sales.  
 
 Supports direct minting with the **MINTER_ROLE** or minting with a signed voucher from an account with the **MINTER_ROLE**  
+  
+Address: **0x8b6129DA45437810A40DfE8bCd509d7F1a69690b**
 
-### ERC721Art
+##### ERC721Art
 Upgradeable token contract implementing the ERC721 standard. Intended to deploy alongside several other *drop contracts* to support flexible minting patterns like auctions, drops, and raffles.
 
 Inherits from:
@@ -48,6 +53,8 @@ Inherits from:
 - [EIP712 (upgradeable)](https://docs.openzeppelin.com/contracts/4.x/api/utils#EIP712)
   
 Supports direct minting with the **MINTER_ROLE**.  
+  
+Address: **0x20970b7830bCf2166207A73CF4894197946BEEef**
 
 ## Building and Deploying
 ### Building
@@ -64,13 +71,29 @@ Because zkladder-contracts is currently a private package hosted on github, ther
 - Run `npm run build`
 
 ### Deploying
-This section assumes that you are deploying to a local hardhat node for easier development and manual testing. Deploying to public networks should be done using the zkladder-sdk and is not currently supported from this repository.
+This repository includes a deployment script which behaves differently depending on how it is configured, and which contract is being deployed  
+
+##### Deploying a non-upgradeable (legacy) contract
+*The only non-upgradeable contract included in this repository is the deprecated ERC721MembershipV1*  
+
+Deploying non-upgradeable contracts can only be done to localhost. Doing so to public networks is not supported and should be done
+through the zkladder-sdk
 
 - Run `npm run node` to start a local Ethereum node.
-- Run `npx hardhat deploy --network localhost --templateId {{YOUR TEMPLATE ID}}`
+- Run `npx hardhat deploy --network localhost --templateId 1`
 
-The templateId field refers to the **contractId** of the [contract that you wish to deploy](https://github.com/ZKLadder/zkladder-contracts/blob/main/utils/contracts.js)
+##### Deploying an upgradeable contract to localhost  
+When deploying any upgradeable contract locally, the deployment script will all of them in order to preserve the assigned contract addresses  
 
+- Run `npm run node` to start a local Ethereum node.
+- Run `npx hardhat deploy --network localhost --templateId {templateId} --withproxies {boolean}`
+
+The templateId field refers to the **contractId** of the [contract that you wish to deploy](https://github.com/ZKLadder/zkladder-contracts/blob/main/utils/contracts.js)  
+
+Setting the 'withproxies' flag to 'true' will deploy storage contracts alongside all of the implementation deployments and log out the storage addresses. 
+
+##### Deploying an upgradeable contract to public chains
+- Run `npx hardhat deploy --network {network} --templateId {templateId}`
 
 ### Manual Testing
 [One Click Dapp](https://oneclickdapp.com/) provides a fast way to interact with and manually test any new contract functionality. The application accepts a contract abi and address, and exposes a simple UI which you can use to test contract functions and behavior.
