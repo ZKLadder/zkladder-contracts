@@ -6,6 +6,8 @@ const exportAbi = require('./scripts/exportAbi');
 const flatten = require('./scripts/flatten');
 const deploy = require('./scripts/deploy');
 
+console.log(process.env);
+
 const networks = {
   localhost: {
     url: 'http://localhost:8545',
