@@ -6,18 +6,16 @@ const exportAbi = require('./scripts/exportAbi');
 const flatten = require('./scripts/flatten');
 const deploy = require('./scripts/deploy');
 
-console.log(process.env);
-
 const networks = {
   localhost: {
     url: 'http://localhost:8545',
     chainId: 31337,
-    accounts: [process.env.HARDHAT_PRIVATE_KEY],
+    accounts: process.env.CI ? [process.env.HARDHAT_PRIVATE_KEY] : undefined,
   },
   rinkeby: {
     url: 'https://rinkeby.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
     chainId: 4,
-    accounts: [process.env.EVM_PRIVATE_KEY],
+    accounts: process.env.CI ? [process.env.EVM_PRIVATE_KEY] : undefined,
   },
 };
 
