@@ -25,7 +25,7 @@ contract ERC721MembershipV2 is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     struct MemberTier {
-        string name;
+        string tierURI; // URI pointing to arbitrary metadata
         uint96 royaltyBasis;
         uint256 salePrice;
         bool isTransferable;

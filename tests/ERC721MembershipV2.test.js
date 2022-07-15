@@ -96,7 +96,7 @@ describe('ERC721MembershipV2', () => {
     }
 
     const newTier = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTierCID',
       royaltyBasis: BigNumber.from(500),
       salePrice: ethToWei(1),
       isTransferable: true,
@@ -134,21 +134,21 @@ describe('ERC721MembershipV2', () => {
     }
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
     };
 
     const tier2 = {
-      name: 'Member',
+      tierURI: 'ipfs://memberTier',
       royaltyBasis: BigNumber.from(200),
       salePrice: ethToWei(2),
       isTransferable: true,
     };
 
     const tier3 = {
-      name: 'Creator',
+      tierURI: 'ipfs://creatorTier',
       royaltyBasis: BigNumber.from(300),
       salePrice: ethToWei(3),
       isTransferable: true,
@@ -192,7 +192,7 @@ describe('ERC721MembershipV2', () => {
     }
 
     const newTier = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(500),
       salePrice: ethToWei(1),
       isTransferable: true,
@@ -254,21 +254,21 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
     };
 
     const tier2 = {
-      name: 'Member',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(200),
       salePrice: ethToWei(2),
       isTransferable: true,
     };
 
     const tier3 = {
-      name: 'Creator',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(300),
       salePrice: ethToWei(3),
       isTransferable: true,
@@ -279,14 +279,14 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalTiers()).toNumber()).to.equal(3);
 
     const tier2Updated = {
-      name: 'MemberV2',
+      tierURI: 'MemberV2',
       royaltyBasis: BigNumber.from(1200),
       salePrice: ethToWei(0.2),
       isTransferable: false,
     };
 
     const tier3Updated = {
-      name: 'CreatorV2',
+      tierURI: 'CreatorV2',
       royaltyBasis: BigNumber.from(1300),
       salePrice: ethToWei(0.3),
       isTransferable: false,
@@ -320,21 +320,21 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
     };
 
     const tier2 = {
-      name: 'Member',
+      tierURI: 'ipfs://memberTier',
       royaltyBasis: BigNumber.from(200),
       salePrice: ethToWei(2),
       isTransferable: true,
     };
 
     const tier3 = {
-      name: 'Creator',
+      tierURI: 'ipfs://creatorTier',
       royaltyBasis: BigNumber.from(300),
       salePrice: ethToWei(3),
       isTransferable: true,
@@ -347,14 +347,14 @@ describe('ERC721MembershipV2', () => {
     const nonAdmin = instance1.connect(signers[1]);
 
     const tier2Updated = {
-      name: 'MemberV2',
+      tierURI: 'MemberV2',
       royaltyBasis: BigNumber.from(1200),
       salePrice: ethToWei(0.2),
       isTransferable: false,
     };
 
     const tier3Updated = {
-      name: 'CreatorV2',
+      tierURI: 'CreatorV2',
       royaltyBasis: BigNumber.from(1300),
       salePrice: ethToWei(0.3),
       isTransferable: false,
@@ -393,21 +393,21 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
     };
 
     const tier2 = {
-      name: 'Member',
+      tierURI: 'ipfs://memberTier',
       royaltyBasis: BigNumber.from(200),
       salePrice: ethToWei(2),
       isTransferable: true,
     };
 
     const tier3 = {
-      name: 'Creator',
+      tierURI: 'ipfs://creatorTier',
       royaltyBasis: BigNumber.from(300),
       salePrice: ethToWei(3),
       isTransferable: true,
@@ -418,7 +418,7 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalTiers()).toNumber()).to.equal(3);
 
     const tier4Updated = {
-      name: 'MemberV2',
+      tierURI: 'MemberV2',
       royaltyBasis: BigNumber.from(1200),
       salePrice: ethToWei(0.2),
       isTransferable: false,
@@ -520,14 +520,14 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalSupply()).toNumber()).to.equal(0);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
     };
 
     const tier2 = {
-      name: 'Member',
+      tierURI: 'ipfs://memberTier',
       royaltyBasis: BigNumber.from(200),
       salePrice: ethToWei(2),
       isTransferable: true,
@@ -578,7 +578,7 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalSupply()).toNumber()).to.equal(0);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
@@ -635,7 +635,7 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
@@ -669,7 +669,7 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
@@ -721,7 +721,7 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
@@ -764,7 +764,7 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
@@ -812,7 +812,7 @@ describe('ERC721MembershipV2', () => {
     const instance1 = ERC721MembershipV2Logic.attach(address1);
 
     const tier1 = {
-      name: 'Admin',
+      tierURI: 'ipfs://adminTier',
       royaltyBasis: BigNumber.from(100),
       salePrice: ethToWei(1),
       isTransferable: false,
