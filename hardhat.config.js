@@ -10,7 +10,12 @@ const networks = {
   localhost: {
     url: 'http://localhost:8545',
     chainId: 31337,
-    account: [process.env.HARDHAT_PRIVATE_KEY],
+    accounts: process.env.CI ? undefined : [process.env.HARDHAT_PRIVATE_KEY],
+  },
+  rinkeby: {
+    url: 'https://rinkeby.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
+    chainId: 4,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
 };
 
@@ -45,6 +50,7 @@ task('flatten-file', 'Flattens a contracts source code so that it may be verifie
   .addParam('license', 'SPDX license identifier for flattened source', undefined, types.string, true)
   .setAction(flatten);
 
-task('deploy', 'Deploys contract to specified network')
-  .addParam('templateId', 'Contract template to be deployed')
+task('deploy', 'Deploys instance of contract to specified network')
+  .addParam('templateid', 'Contract template to be deployed')
+  .addParam('withproxies', "Pass in 'true' to deploy proxies alongside upgradeable implementation contracts")
   .setAction(deploy);

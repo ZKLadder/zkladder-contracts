@@ -4,7 +4,7 @@ const chaiSubset = require('chai-subset');
 const { utils, BigNumber } = require('ethers');
 const { ethToWei } = require('../utils/conversions');
 const { ERC721MembershipV2Voucher } = require('../utils/signatures');
-const { initializer } = require('../utils/contracts')[4];
+const { initializer } = require('../utils/contracts')[3];
 
 chai.use(chaiSubset);
 const { expect } = chai;

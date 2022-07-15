@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat');
 const { expect } = require('chai');
 const { utils } = require('ethers');
-const { initializer } = require('../utils/contracts')[3];
+const { initializer } = require('../utils/contracts')[4];
 
 const iface = new utils.Interface([initializer]);
 
