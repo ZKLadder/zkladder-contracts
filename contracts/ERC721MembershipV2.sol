@@ -166,9 +166,9 @@ contract ERC721MembershipV2 is
         require(tierId < totalTiers(), "Invalid tierId");
         require(bytes(tokenUri).length > 0, "tokenUri must be set");
 
-        tokenTiers[tokenId] = tierId;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenUri);
+        tokenTiers[tokenId] = tierId;
     }
 
     /**
@@ -189,9 +189,9 @@ contract ERC721MembershipV2 is
         address signer = _verify(voucher);
         require(hasRole(MINTER_ROLE, signer), "Signature invalid");
 
-        tokenTiers[voucher.tokenId] = voucher.tierId;
         _safeMint(voucher.minter, voucher.tokenId);
         _setTokenURI(voucher.tokenId, tokenUri);
+        tokenTiers[voucher.tokenId] = voucher.tierId;
 
         (bool success, bytes memory returnData) = beneficiaryAddress.call{
             value: msg.value
