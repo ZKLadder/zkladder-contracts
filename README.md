@@ -86,7 +86,7 @@ through the zkladder-sdk
 When deploying any upgradeable contract locally, the deployment script will all of them in order to preserve the assigned contract addresses  
 
 - Run `npm run node` to start a local Ethereum node.
-- Run `npx hardhat deploy --network localhost --templateId {templateId} --withproxies {boolean}`
+- Run `npx hardhat deploy --network localhost --templateid {templateId} --withproxies {boolean}`
 
 The templateId field refers to the **contractId** of the [contract that you wish to deploy](https://github.com/ZKLadder/zkladder-contracts/blob/main/utils/contracts.js)  
 

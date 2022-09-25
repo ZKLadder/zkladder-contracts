@@ -535,7 +535,7 @@ describe('ERC721MembershipV2', () => {
 
     await (await instance1.addTiers([tier1, tier2])).wait();
 
-    await (await instance1.mintTo(signers[1].address, 0, 'ipfs://123456789')).wait();
+    await (await instance1.mintTo(signers[1].address, 0, 0, 'ipfs://123456789')).wait();
 
     expect((await instance1.totalSupply()).toNumber()).to.equal(1);
     expect((await instance1.tokenTiers(0))).to.equal(0);
@@ -547,7 +547,7 @@ describe('ERC721MembershipV2', () => {
     expect(beneficiary).to.equal(signers[0].address);
     expect(royalty.toNumber()).to.equal(10);
 
-    await (await instance1.mintTo(signers[2].address, 1, 'ipfs://987654321')).wait();
+    await (await instance1.mintTo(signers[2].address, 1, 1, 'ipfs://987654321')).wait();
 
     expect((await instance1.totalSupply()).toNumber()).to.equal(2);
     expect((await instance1.tokenTiers(1))).to.equal(1);
@@ -587,7 +587,7 @@ describe('ERC721MembershipV2', () => {
     await (await instance1.addTiers([tier1])).wait();
 
     try {
-      await nonAdmin.mintTo(signers[1].address, 0, 'ipfs://123456789');
+      await nonAdmin.mintTo(signers[1].address, 0, 0, 'ipfs://123456789');
       expect(true).to.equal(false);
     } catch (err) {
       expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'AccessControl: account 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 is missing role 0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6\'');
@@ -612,7 +612,7 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalSupply()).toNumber()).to.equal(0);
 
     try {
-      await instance1.mintTo(signers[1].address, 0, 'ipfs://123456789');
+      await instance1.mintTo(signers[1].address, 0, 1, 'ipfs://123456789');
       expect(true).to.equal(false);
     } catch (err) {
       expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Invalid tierId\'');
@@ -646,13 +646,66 @@ describe('ERC721MembershipV2', () => {
     expect((await instance1.totalSupply()).toNumber()).to.equal(0);
 
     try {
-      await instance1.mintTo(signers[1].address, 0, '');
+      await instance1.mintTo(signers[1].address, 0, 0, '');
       expect(true).to.equal(false);
     } catch (err) {
       expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'tokenUri must be set\'');
     }
 
     expect((await instance1.totalSupply()).toNumber()).to.equal(0);
+  });
+
+  it('Cannot mint same tokenId twice', async () => {
+    const storageFactory = await ethers.getContractFactory('ZKProxy');
+    const proxy1 = await storageFactory.deploy(
+      ERC721MembershipV2Logic.address,
+      iface.encodeFunctionData('initialize', [
+        'Mock1', 'MCK1', 'mockUri1', signers[0].address,
+      ]),
+    );
+
+    const { contractAddress: address1 } = await proxy1.deployTransaction.wait();
+
+    const instance1 = ERC721MembershipV2Logic.attach(address1);
+
+    expect((await instance1.totalSupply()).toNumber()).to.equal(0);
+
+    const tier1 = {
+      tierURI: 'ipfs://adminTier',
+      royaltyBasis: BigNumber.from(100),
+      salePrice: ethToWei(1),
+      isTransferable: false,
+    };
+
+    const tier2 = {
+      tierURI: 'ipfs://memberTier',
+      royaltyBasis: BigNumber.from(200),
+      salePrice: ethToWei(2),
+      isTransferable: true,
+    };
+
+    await (await instance1.addTiers([tier1, tier2])).wait();
+
+    await (await instance1.mintTo(signers[1].address, 0, 0, 'ipfs://123456789')).wait();
+
+    expect((await instance1.totalSupply()).toNumber()).to.equal(1);
+    expect((await instance1.tokenTiers(0))).to.equal(0);
+    expect((await instance1.balanceOf(signers[1].address)).toNumber()).to.equal(1);
+    expect(await instance1.tokenURI(0)).to.equal('ipfs://123456789');
+
+    const [beneficiary, royalty] = await instance1.royaltyInfo(0, 1000);
+
+    expect(beneficiary).to.equal(signers[0].address);
+    expect(royalty.toNumber()).to.equal(10);
+
+    try {
+      await instance1.mintTo(signers[1].address, 0, 0, 'https://tokenUri');
+      expect(true).to.equal(false);
+    } catch (err) {
+      expect(err.message).to.equal('VM Exception while processing transaction: reverted with reason string \'ERC721: token already minted\'');
+    }
+
+    expect((await instance1.totalSupply()).toNumber()).to.equal(1);
   });
 
   it('Token transferability reflects tier configuration', async () => {
@@ -677,7 +730,7 @@ describe('ERC721MembershipV2', () => {
 
     await (await instance1.addTiers([tier1])).wait();
 
-    await (await instance1.mintTo(signers[3].address, 0, 'tokenURI1')).wait();
+    await (await instance1.mintTo(signers[3].address, 0, 0, 'https://tokenURI1')).wait();
 
     expect((await instance1.balanceOf(signers[3].address)).toNumber()).to.equal(1);
     expect((await instance1.balanceOf(signers[4].address)).toNumber()).to.equal(0);
@@ -729,7 +782,7 @@ describe('ERC721MembershipV2', () => {
 
     await (await instance1.addTiers([tier1])).wait();
 
-    await (await instance1.mintTo(signers[3].address, 0, 'tokenURI1')).wait();
+    await (await instance1.mintTo(signers[3].address, 0, 0, 'https://tokenURI1')).wait();
 
     expect((await instance1.balanceOf(signers[0].address)).toNumber()).to.equal(0);
     expect((await instance1.balanceOf(signers[3].address)).toNumber()).to.equal(1);
@@ -779,7 +832,7 @@ describe('ERC721MembershipV2', () => {
       contractName: 'Mock1',
       contractAddress: instance1.address,
       wallet: signers[0],
-      balance: 1,
+      tokenId: 0,
       tierId: 0,
       minter: signers[1].address,
     });
@@ -825,7 +878,7 @@ describe('ERC721MembershipV2', () => {
     // Malformed signature
     try {
       const mintMalformedStructTx = await nonAdmin.mint({
-        balance: 1,
+        tokenId: 1,
         minter: signers[1].address,
         tierId: 0,
         signature: utils.toUtf8Bytes('0xmockSigntatureData'),
@@ -843,7 +896,7 @@ describe('ERC721MembershipV2', () => {
         contractName: 'Mock1',
         contractAddress: nonAdmin.address,
         wallet: signers[1],
-        balance: 1,
+        tokenId: 0,
         tierId: 0,
         minter: signers[1].address,
       });
@@ -853,21 +906,22 @@ describe('ERC721MembershipV2', () => {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Signature invalid\'');
     }
 
-    // Valid signature but max balance reached
+    // Valid signature but tokenId already exists
+    await (await instance1.mintTo(signers[1].address, 0, 0, 'ipfs://123456789')).wait();
     try {
       const signature = await ERC721MembershipV2Voucher({
         chainId: 31337,
         contractName: 'Mock1',
         contractAddress: nonAdmin.address,
         wallet: signers[0],
-        balance: 0,
+        tokenId: 0,
         tierId: 0,
         minter: signers[1].address,
       });
       const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
-      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Cannot mint any more tokens\'');
+      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'ERC721: token already minted\'');
     }
 
     // Not sending enough crypto
@@ -877,7 +931,7 @@ describe('ERC721MembershipV2', () => {
         contractName: 'Mock1',
         contractAddress: nonAdmin.address,
         wallet: signers[0],
-        balance: 1,
+        tokenId: 1,
         tierId: 0,
         minter: signers[1].address,
       });
@@ -894,7 +948,7 @@ describe('ERC721MembershipV2', () => {
         contractName: 'Mock1',
         contractAddress: nonAdmin.address,
         wallet: signers[0],
-        balance: 0,
+        tokenId: 1,
         tierId: 0,
         minter: signers[1].address,
       });
@@ -911,7 +965,7 @@ describe('ERC721MembershipV2', () => {
         contractName: 'Mock1',
         contractAddress: nonAdmin.address,
         wallet: signers[0],
-        balance: 0,
+        tokenId: 1,
         tierId: 1,
         minter: signers[1].address,
       });
