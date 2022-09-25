@@ -3,11 +3,11 @@ pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/ECDSAUpgradeable.sol";
 import "hardhat/console.sol";
 
@@ -15,6 +15,7 @@ import "hardhat/console.sol";
 contract ERC721MembershipV2 is
     Initializable,
     ERC721Upgradeable,
+    ERC721EnumerableUpgradeable,
     ERC721URIStorageUpgradeable,
     AccessControlEnumerableUpgradeable,
     EIP712Upgradeable,
@@ -44,7 +45,7 @@ contract ERC721MembershipV2 is
     struct MintVoucher {
         // Minter's allowed balance after mint has occured.
         // Ie. if the voucher is valid for a single token, balance = balanceOf(minter)+1
-        uint256 balance;
+        uint256 tokenId;
         uint32 tierId;
         address minter;
         bytes signature;
@@ -64,6 +65,7 @@ contract ERC721MembershipV2 is
         require(beneficiary != address(0), "Beneficiary cannot be 0 address");
 
         __ERC721_init(name, symbol);
+        __ERC721Enumerable_init();
         __ERC721URIStorage_init();
         __AccessControlEnumerable_init();
         __EIP712_init(name, "1");
@@ -73,13 +75,6 @@ contract ERC721MembershipV2 is
         beneficiaryAddress = beneficiary;
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
-    }
-
-    using CountersUpgradeable for CountersUpgradeable.Counter;
-    CountersUpgradeable.Counter private _totalSupply;
-
-    function totalSupply() public view returns (uint256) {
-        return _totalSupply.current();
     }
 
     function totalTiers() public view returns (uint256) {
@@ -165,17 +160,15 @@ contract ERC721MembershipV2 is
     function mintTo(
         address to,
         uint32 tierId,
+        uint256 tokenId,
         string memory tokenUri
     ) external onlyRole(MINTER_ROLE) {
         require(tierId < totalTiers(), "Invalid tierId");
         require(bytes(tokenUri).length > 0, "tokenUri must be set");
 
-        uint256 tokenId = totalSupply();
-
-        tokenTiers[tokenId] = tierId;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenUri);
-        _totalSupply.increment();
+        tokenTiers[tokenId] = tierId;
     }
 
     /**
@@ -196,15 +189,9 @@ contract ERC721MembershipV2 is
         address signer = _verify(voucher);
         require(hasRole(MINTER_ROLE, signer), "Signature invalid");
 
-        uint256 balance = balanceOf(voucher.minter);
-        require(voucher.balance > balance, "Cannot mint any more tokens");
-
-        uint256 tokenId = totalSupply();
-
-        tokenTiers[tokenId] = voucher.tierId;
-        _safeMint(voucher.minter, tokenId);
-        _setTokenURI(tokenId, tokenUri);
-        _totalSupply.increment();
+        _safeMint(voucher.minter, voucher.tokenId);
+        _setTokenURI(voucher.tokenId, tokenUri);
+        tokenTiers[voucher.tokenId] = voucher.tierId;
 
         (bool success, bytes memory returnData) = beneficiaryAddress.call{
             value: msg.value
@@ -218,7 +205,7 @@ contract ERC721MembershipV2 is
         address from,
         address to,
         uint256 tokenId
-    ) internal override(ERC721Upgradeable) {
+    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
         if (from != address(0)) {
             uint32 tierId = tokenTiers[tokenId];
             MemberTier memory tier = tierInfo(tierId);
@@ -249,9 +236,9 @@ contract ERC721MembershipV2 is
                 keccak256(
                     abi.encode(
                         keccak256(
-                            "mintVoucher(uint256 balance,uint32 tierId,address minter)"
+                            "mintVoucher(uint256 tokenId,uint32 tierId,address minter)"
                         ),
-                        voucher.balance,
+                        voucher.tokenId,
                         voucher.tierId,
                         voucher.minter
                     )
@@ -289,7 +276,11 @@ contract ERC721MembershipV2 is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721Upgradeable, AccessControlEnumerableUpgradeable)
+        override(
+            ERC721Upgradeable,
+            ERC721EnumerableUpgradeable,
+            AccessControlEnumerableUpgradeable
+        )
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
