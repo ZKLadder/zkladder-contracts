@@ -1,6 +1,6 @@
 {
   "name": "@zkladder/zkladder-contracts",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     "@openzeppelin/contracts-upgradeable": "^4.6.0",
     "dotenv": "^16.0.1",
     "ethers": "^5.6.7",
-    "hardhat": "^2.9.6",
+    "hardhat": "^2.11.2",
     "hardhat-gas-reporter": "^1.0.8",
     "minimist": "^1.2.6",
     "solhint": "^3.3.7"
