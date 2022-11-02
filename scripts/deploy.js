@@ -99,8 +99,8 @@ module.exports = async (taskArgs, hre) => {
 
       console.log(`\nLogic ${template.name} deployed to ${logicInstance.address}`);
       console.log(`Gas used: ${gasUsedLogic} \n`);
-    } catch ({ error }) { // Catch and log any errors
-      console.log(error.error);
+    } catch (error) { // Catch and log any errors
+      console.log(error);
     }
   }
 };
