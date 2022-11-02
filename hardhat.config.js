@@ -18,7 +18,7 @@ const networks = {
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
   sepolia: {
-    url: 'https://sepolia.infura.io/v3/',
+    url: 'https://sepolia.infura.io/v3',
     chainId: 11155111,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
