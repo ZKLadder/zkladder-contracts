@@ -70,3 +70,4 @@ jobs: # each workflow consists of 1+ jobs; by default, all jobs run in parallel
       with:
         node-version: 14
         slither-config: ./slither.config.json
+        fail-on: config
