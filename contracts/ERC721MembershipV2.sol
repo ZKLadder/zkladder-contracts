@@ -47,6 +47,7 @@ contract ERC721MembershipV2 is
         uint256 tokenId;
         uint32 tierId;
         address minter;
+        string tokenUri;
         bytes signature;
     }
 
@@ -173,13 +174,9 @@ contract ERC721MembershipV2 is
     /**
       @notice Public function enabling any account to mint with a mintVoucher signed by an account granted a MINTER_ROLE
       @param voucher A signed mint voucher
-      @param tokenUri IPFS hash or URI of token metadata
      */
-    function mint(MintVoucher calldata voucher, string memory tokenUri)
-        external
-        payable
-    {
-        require(bytes(tokenUri).length > 0, "tokenUri must be set");
+    function mint(MintVoucher calldata voucher) external payable {
+        require(bytes(voucher.tokenUri).length > 0, "tokenUri must be set");
 
         MemberTier memory tier = tierInfo(voucher.tierId);
 
@@ -189,7 +186,7 @@ contract ERC721MembershipV2 is
         require(hasRole(MINTER_ROLE, signer), "Signature invalid");
 
         _safeMint(voucher.minter, voucher.tokenId);
-        _setTokenURI(voucher.tokenId, tokenUri);
+        _setTokenURI(voucher.tokenId, voucher.tokenUri);
         tokenTiers[voucher.tokenId] = voucher.tierId;
 
         (bool success, bytes memory returnData) = beneficiaryAddress.call{
@@ -235,11 +232,12 @@ contract ERC721MembershipV2 is
                 keccak256(
                     abi.encode(
                         keccak256(
-                            "mintVoucher(uint256 tokenId,uint32 tierId,address minter)"
+                            "mintVoucher(uint256 tokenId,uint32 tierId,address minter,string tokenUri)"
                         ),
                         voucher.tokenId,
                         voucher.tierId,
-                        voucher.minter
+                        voucher.minter,
+                        keccak256(bytes(voucher.tokenUri))
                     )
                 )
             );

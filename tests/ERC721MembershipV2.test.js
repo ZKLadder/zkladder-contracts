@@ -835,9 +835,10 @@ describe('ERC721MembershipV2', () => {
       tokenId: 0,
       tierId: 0,
       minter: signers[1].address,
+      tokenUri: 'mockTokenURI',
     });
 
-    await (await nonAdmin.mint(signature, 'mockTokenURI', { value: ethToWei(1) })).wait();
+    await (await nonAdmin.mint(signature, { value: ethToWei(1) })).wait();
 
     expect(await instance1.totalSupply()).to.deep.equal(BigNumber.from(1));
     expect(await instance1.balanceOf(signers[1].address)).to.deep.equal(BigNumber.from(1));
@@ -881,8 +882,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 1,
         minter: signers[1].address,
         tierId: 0,
+        tokenUri: 'https://mockToken.com',
         signature: utils.toUtf8Bytes('0xmockSigntatureData'),
-      }, 'https://mockToken.com', { value: ethToWei(1) });
+      }, { value: ethToWei(1) });
 
       await mintMalformedStructTx.wait();
     } catch (error) {
@@ -899,8 +901,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 0,
         tierId: 0,
         minter: signers[1].address,
+        tokenUri: 'https://mockToken.com',
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Signature invalid\'');
@@ -917,8 +920,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 0,
         tierId: 0,
         minter: signers[1].address,
+        tokenUri: 'https://mockToken.com',
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'ERC721: token already minted\'');
@@ -934,8 +938,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 1,
         tierId: 0,
         minter: signers[1].address,
+        tokenUri: 'https://mockToken.com',
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(0.5) });
+      const invalidSigTx = await nonAdmin.mint(signature, { value: ethToWei(0.5) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Value sent is too low\'');
@@ -951,8 +956,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 1,
         tierId: 0,
         minter: signers[1].address,
+        tokenUri: '',
       });
-      const invalidSigTx = await nonAdmin.mint(signature, '', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'tokenUri must be set\'');
@@ -968,8 +974,9 @@ describe('ERC721MembershipV2', () => {
         tokenId: 1,
         tierId: 1,
         minter: signers[1].address,
+        tokenUri: 'https://mockToken.com',
       });
-      const invalidSigTx = await nonAdmin.mint(signature, 'https://mockToken.com', { value: ethToWei(1) });
+      const invalidSigTx = await nonAdmin.mint(signature, { value: ethToWei(1) });
       await invalidSigTx.wait();
     } catch (error) {
       expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Invalid tierId\'');

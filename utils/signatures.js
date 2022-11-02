@@ -56,6 +56,7 @@ const ERC721MembershipV2Voucher = async (options) => {
     tokenId,
     tierId,
     minter,
+    tokenUri,
   } = options;
 
   const signer = wallet;
@@ -72,6 +73,7 @@ const ERC721MembershipV2Voucher = async (options) => {
       { name: 'tokenId', type: 'uint256' },
       { name: 'tierId', type: 'uint32' },
       { name: 'minter', type: 'address' },
+      { name: 'tokenUri', type: 'string' },
     ],
   };
 
@@ -79,6 +81,7 @@ const ERC721MembershipV2Voucher = async (options) => {
     tokenId,
     tierId,
     minter,
+    tokenUri,
   };
 
   const signature = await signer._signTypedData(domain, types, value);
@@ -87,6 +90,7 @@ const ERC721MembershipV2Voucher = async (options) => {
     tokenId,
     tierId,
     minter,
+    tokenUri,
     signature,
   };
 };

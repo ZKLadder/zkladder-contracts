@@ -12,9 +12,14 @@ const networks = {
     chainId: 31337,
     accounts: process.env.CI ? undefined : [process.env.HARDHAT_PRIVATE_KEY],
   },
-  rinkeby: {
-    url: 'https://rinkeby.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
-    chainId: 4,
+  goerli: {
+    url: 'https://goerli.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
+    chainId: 5,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
+  },
+  sepolia: {
+    url: 'https://sepolia.infura.io/v3/',
+    chainId: 11155111,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
 };
