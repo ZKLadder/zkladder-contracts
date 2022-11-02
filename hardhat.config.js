@@ -22,6 +22,11 @@ const networks = {
     chainId: 11155111,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
+  mumbai: {
+    url: 'https://matic-mumbai.chainstacklabs.com',
+    chainId: 80001,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
+  },
 };
 
 /**
