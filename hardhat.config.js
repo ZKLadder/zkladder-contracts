@@ -27,6 +27,11 @@ const networks = {
     chainId: 80001,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
+  polygon: {
+    url: 'https://polygon.llamarpc.com',
+    chainId: 137,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
+  },
 };
 
 /**
