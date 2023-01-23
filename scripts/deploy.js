@@ -93,7 +93,7 @@ module.exports = async (taskArgs, hre) => {
         deployer,
       );
 
-      const logicInstance = await logicContract.deploy();
+      const logicInstance = await logicContract.deploy({ gasLimit: 6000000 });
 
       const { gasUsed: gasUsedLogic } = await logicInstance.deployTransaction.wait();
 

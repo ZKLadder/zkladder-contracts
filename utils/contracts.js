@@ -17,7 +17,7 @@ module.exports = {
     mockArgs: ['TestArt', 'ART', 'https://contractUri', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
     isUpgradeable: true,
     initializer: 'function initialize(string name, string symbol, string contractUri, address beneficiary)',
-    address: '0x8b6129DA45437810A40DfE8bCd509d7F1a69690b',
+    address: '0x20970b7830bCf2166207A73CF4894197946BEEef',
   },
   4: {
     name: 'ERC721Art',
@@ -26,7 +26,7 @@ module.exports = {
     mockArgs: ['TestArt', 'ART', 'https://contractUri', '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', 500],
     isUpgradeable: true,
     initializer: 'function initialize(string name, string symbol, string contractUri, address beneficiary, uint96 defaultRoyalty)',
-    address: '0x20970b7830bCf2166207A73CF4894197946BEEef',
+    address: '0x23e966B9429E2b405A1F79469161AD8DF57315EE',
   },
 
 };
