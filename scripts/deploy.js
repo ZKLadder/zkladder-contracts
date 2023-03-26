@@ -40,6 +40,14 @@ module.exports = async (taskArgs, hre) => {
           deployer,
         );
 
+        // Ensure contracts are deployed in the correct order
+        const nonce = await deployer.getTransactionCount();
+        const newContractAddress = hre.ethers.utils.getContractAddress({
+          from: deployer.address,
+          nonce,
+        });
+        if (newContractAddress !== upgradeableTemplate.address) throw new Error(`You are deploying this contract out of order. Current nonce is ${nonce}`);
+
         const logicInstance = await logicContract.deploy();
 
         const { gasUsed: gasUsedLogic } = await logicInstance.deployTransaction.wait();

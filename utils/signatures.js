@@ -95,7 +95,52 @@ const ERC721MembershipV2Voucher = async (options) => {
   };
 };
 
+const ERC721ArtVoucher = async (options) => {
+  const {
+    chainId,
+    contractName,
+    contractAddress,
+    wallet,
+    tokenId,
+    minter,
+    tokenUri,
+  } = options;
+
+  const signer = wallet;
+
+  const domain = {
+    chainId,
+    name: contractName,
+    verifyingContract: contractAddress,
+    version: '1',
+  };
+
+  const types = {
+    mintVoucher: [
+      { name: 'tokenId', type: 'uint256' },
+      { name: 'minter', type: 'address' },
+      { name: 'tokenUri', type: 'string' },
+    ],
+  };
+
+  const value = {
+    tokenId,
+    minter,
+    tokenUri,
+  };
+
+  const signature = await signer._signTypedData(domain, types, value);
+
+  return {
+    tokenId,
+    minter,
+    tokenUri,
+    signature,
+  };
+};
+
 module.exports = {
   ERC721MembershipV1Voucher,
   ERC721MembershipV2Voucher,
+  ERC721ArtVoucher,
 };
