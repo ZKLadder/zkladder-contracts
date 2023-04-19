@@ -22,7 +22,7 @@ contract TokenArt is ERC721, AccessControl {
     using Counters for Counters.Counter;
     Counters.Counter private _totalSupply;
 
-    uint128 public maxSupply = 300;
+    uint128 public constant MAX_SUPPLY = 300;
     uint128 private royaltyBasis = 500;
 
     constructor(
@@ -69,9 +69,9 @@ contract TokenArt is ERC721, AccessControl {
     function batchMintTo(
         address to,
         uint256 quantity
-    ) public payable onlyRole(DEFAULT_ADMIN_ROLE) {
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
         require(
-            (totalSupply() + quantity) <= maxSupply,
+            (totalSupply() + quantity) <= MAX_SUPPLY,
             "Cannot mint more then 300"
         );
         for (uint i = 0; i < quantity; i++) {
