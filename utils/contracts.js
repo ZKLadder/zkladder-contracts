@@ -28,6 +28,12 @@ module.exports = {
     initializer: 'function initialize(string name, string symbol, string contractUri, address beneficiary)',
     address: '0x79F3CF659A974cCd33F9a8389b921f73280A0042',
   },
+  5: {
+    name: 'TokenArt',
+    id: 5,
+    src: 'contracts/TokenArt.sol',
+    mockArgs: ['ipfs://bafkreiccws5pbfpg6mfny4ax3vsftdqaw3ikqcxs7zjawt4hooljkjf2bu'],
+  },
 
   // 5 0xCBA96aEB45Ce7Dc7B6bD876dB1b560D0A5d2399b
   // 6 0x7887C6Dd437C292e2fb661F9D38E8A8DfA03b4f1

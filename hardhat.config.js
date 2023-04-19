@@ -5,6 +5,7 @@ const { task, types } = require('hardhat/config');
 const exportAbi = require('./scripts/exportAbi');
 const flatten = require('./scripts/flatten');
 const deploy = require('./scripts/deploy');
+const deployTokenArt = require('./scripts/deployTokenArt');
 
 const networks = {
   localhost: {
@@ -13,7 +14,7 @@ const networks = {
     accounts: process.env.CI ? undefined : [process.env.HARDHAT_PRIVATE_KEY],
   },
   goerli: {
-    url: 'https://goerli.infura.io/v3/2d33fc4d9a9b4140b8582c1ef3bd12e8',
+    url: 'https://goerli.infura.io/v3/28445607a2834ee1ab47ead0ef9e13f4',
     chainId: 5,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
@@ -23,13 +24,18 @@ const networks = {
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
   mumbai: {
-    url: 'https://matic-mumbai.chainstacklabs.com',
+    url: 'https://polygon-mumbai.infura.io/v3/28445607a2834ee1ab47ead0ef9e13f4',
     chainId: 80001,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
   polygon: {
     url: 'https://polygon.llamarpc.com',
     chainId: 137,
+    accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
+  },
+  mainnet: {
+    url: 'https://mainnet.infura.io/v3/28445607a2834ee1ab47ead0ef9e13f4',
+    chainId: 1,
     accounts: process.env.CI ? undefined : [process.env.EVM_PRIVATE_KEY],
   },
 };
@@ -69,3 +75,5 @@ task('deploy', 'Deploys instance of contract to specified network')
   .addParam('templateid', 'Contract template to be deployed')
   .addParam('withproxies', "Pass in 'true' to deploy proxies alongside upgradeable implementation contracts")
   .setAction(deploy);
+
+task('deployTokenArt', 'Deploys instance of Token Art').setAction(deployTokenArt);
