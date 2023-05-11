@@ -2,11 +2,11 @@ const { ethers } = require('hardhat');
 const { expect } = require('chai');
 const { BigNumber } = require('ethers');
 
-describe('TokenArt-Archived', () => {
+describe('ZKLadderClaimable', () => {
   let ERC721Whitelisted;
 
   beforeEach(async () => {
-    const factory = await ethers.getContractFactory('TokenArt2023Archive');
+    const factory = await ethers.getContractFactory('ZKLadderClaimable');
 
     ERC721Whitelisted = await factory.deploy(
       'ipfs://mock12345',
@@ -14,8 +14,8 @@ describe('TokenArt-Archived', () => {
   });
 
   it('Correctly deploys with constructor params', async () => {
-    expect(await ERC721Whitelisted.name()).to.equal('Token Art 2023');
-    expect(await ERC721Whitelisted.symbol()).to.equal('TOKENART');
+    expect(await ERC721Whitelisted.name()).to.equal('WatchfulAIs');
+    expect(await ERC721Whitelisted.symbol()).to.equal('AUTH');
     expect(await ERC721Whitelisted.contractURI()).to.equal('ipfs://mock12345');
   });
 
@@ -86,13 +86,16 @@ describe('TokenArt-Archived', () => {
     }
   });
 
-  it('Throws when minting more then 300', async () => {
+  it('Throws when minting more then maxSupply', async () => {
     const signers = await ethers.getSigners();
     const balance = await ERC721Whitelisted.totalSupply();
     expect(balance).to.deep.equal(BigNumber.from(0));
 
     const baseUriTx = await ERC721Whitelisted.setBaseUri('http://mockURI.com');
     await baseUriTx.wait();
+
+    const maxSupplyTx = await ERC721Whitelisted.setMaxSupply(300);
+    await maxSupplyTx.wait();
 
     const mint1 = await ERC721Whitelisted.batchMintTo(signers[1].address, 100);
     await mint1.wait();
@@ -108,7 +111,7 @@ describe('TokenArt-Archived', () => {
       await mint4.wait();
       expect(true).to.equal(false);
     } catch (error) {
-      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Cannot mint more then 300\'');
+      expect(error.message).to.equal('VM Exception while processing transaction: reverted with reason string \'Cannot mint more then maxSupply\'');
     }
   });
 
