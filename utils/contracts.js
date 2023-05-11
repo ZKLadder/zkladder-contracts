@@ -34,6 +34,12 @@ module.exports = {
     src: 'contracts/TokenArt.sol',
     mockArgs: ['ipfs://bafkreiccws5pbfpg6mfny4ax3vsftdqaw3ikqcxs7zjawt4hooljkjf2bu'],
   },
+  6: {
+    name: 'ZKLadderClaimable',
+    id: 6,
+    src: 'contracts/ZKLadderClaimable.sol',
+    mockArgs: ['ipfs://bafkreibditjazrqhn2f2zy4oxejj5edt4rf2h2n6quxu4sghcpzpnsfypq'],
+  },
 
   // 5 0xCBA96aEB45Ce7Dc7B6bD876dB1b560D0A5d2399b
   // 6 0x7887C6Dd437C292e2fb661F9D38E8A8DfA03b4f1

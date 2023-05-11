@@ -6,34 +6,31 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
-  @title Token Art 2023 Gift Collection
-  @author Token Art x ZKLadder
+  @title Watchful AI's
+  @author ZKLadder
  */
-contract TokenArt2023Archive is ERC721, AccessControl {
+contract ZKLadderClaimable is ERC721, AccessControl {
     // Collection level metadata
     string public contractURI;
 
     // baseURI for all tokenURI's
     string private baseURI;
 
+    using Counters for Counters.Counter;
+    Counters.Counter private _totalSupply;
+
+    uint256 public maxSupply = 217;
+
+    constructor(string memory _contractURI) ERC721("WatchfulAIs", "AUTH") {
+        contractURI = _contractURI;
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+
+    // Getters
     function _baseURI() internal view override returns (string memory) {
         return baseURI;
     }
 
-    using Counters for Counters.Counter;
-    Counters.Counter private _totalSupply;
-
-    uint256 public constant MAX_SUPPLY = 300;
-
-    constructor(
-        string memory _contractURI
-    ) ERC721("Token Art 2023", "TOKENART") {
-        contractURI = _contractURI;
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        //_grantRole(DEFAULT_ADMIN_ROLE, /* Steve's address here */);
-    }
-
-    // Getters
     function totalSupply() public view returns (uint256) {
         return _totalSupply.current();
     }
@@ -48,8 +45,8 @@ contract TokenArt2023Archive is ERC721, AccessControl {
         uint256 quantity
     ) public onlyRole(DEFAULT_ADMIN_ROLE) {
         require(
-            (totalSupply() + quantity) <= MAX_SUPPLY,
-            "Cannot mint more then 300"
+            (totalSupply() + quantity) <= maxSupply,
+            "Cannot mint more then maxSupply"
         );
         for (uint i = 0; i < quantity; i++) {
             uint256 tokenId = totalSupply();
@@ -76,6 +73,16 @@ contract TokenArt2023Archive is ERC721, AccessControl {
         string memory newBaseURI
     ) external onlyRole(DEFAULT_ADMIN_ROLE) {
         baseURI = newBaseURI;
+    }
+
+    /**
+      @notice Enables any account assigned as DEFAULT_ADMIN_ROLE to set a new maxSupply
+      @param newMaxSupply New max supply of tokens
+     */
+    function setMaxSupply(
+        uint256 newMaxSupply
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        maxSupply = newMaxSupply;
     }
 
     function supportsInterface(

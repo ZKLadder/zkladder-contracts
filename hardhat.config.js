@@ -6,6 +6,7 @@ const exportAbi = require('./scripts/exportAbi');
 const flatten = require('./scripts/flatten');
 const deploy = require('./scripts/deploy');
 const deployTokenArt = require('./scripts/deployTokenArt');
+const deployZKClaimable = require('./scripts/deployZKClaimable');
 
 const networks = {
   localhost: {
@@ -77,3 +78,5 @@ task('deploy', 'Deploys instance of contract to specified network')
   .setAction(deploy);
 
 task('deployTokenArt', 'Deploys instance of Token Art').setAction(deployTokenArt);
+
+task('deployZKClaimable', 'Deploys instance of ZKClaimable contract').setAction(deployZKClaimable);
