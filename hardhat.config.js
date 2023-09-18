@@ -7,6 +7,7 @@ const flatten = require('./scripts/flatten');
 const deploy = require('./scripts/deploy');
 const deployTokenArt = require('./scripts/deployTokenArt');
 const deployZKClaimable = require('./scripts/deployZKClaimable');
+const deployIteratiClaimable = require('./scripts/deployIteratiClaimable');
 
 const networks = {
   localhost: {
@@ -80,3 +81,7 @@ task('deploy', 'Deploys instance of contract to specified network')
 task('deployTokenArt', 'Deploys instance of Token Art').setAction(deployTokenArt);
 
 task('deployZKClaimable', 'Deploys instance of ZKClaimable contract').setAction(deployZKClaimable);
+
+task('deployIteratiClaimable', 'Deploys instance of IteratiClaimable contract')
+  .addParam('withproxies', "Pass in 'true' to deploy proxies alongside upgradeable implementation contracts")
+  .setAction(deployIteratiClaimable);

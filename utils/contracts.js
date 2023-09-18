@@ -40,6 +40,14 @@ module.exports = {
     src: 'contracts/ZKLadderClaimable.sol',
     mockArgs: ['ipfs://bafkreibditjazrqhn2f2zy4oxejj5edt4rf2h2n6quxu4sghcpzpnsfypq'],
   },
+  7: {
+    name: 'IteratiClaimable',
+    id: 7,
+    src: 'contracts/IteratiClaimable.sol',
+    mockArgs: ['TestArt', 'ART', 'https://contractUri', ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x7372fc99787409ef14eAe0E544544dBF2FaeC7c0']],
+    isUpgradeable: false,
+    initializer: 'function initialize(string name, string symbol, string contractUri, address[] admins)',
+  },
 
   // 5 0xCBA96aEB45Ce7Dc7B6bD876dB1b560D0A5d2399b
   // 6 0x7887C6Dd437C292e2fb661F9D38E8A8DfA03b4f1
